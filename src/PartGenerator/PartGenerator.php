@@ -28,8 +28,6 @@ class PartGenerator
     public function generatePartsFromRoute($route)
     {
         foreach (range(0, strlen($route)-1) as $position) {
-            $this->options['section'] = trim($this->options['section']);
-
             if (in_array($route[$position], $this->deviders)) {
                 if (!empty($this->options['section'])) {
                     yield PartFactory::create($this->type, $this->options());
