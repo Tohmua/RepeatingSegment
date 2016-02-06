@@ -2,17 +2,16 @@
 
 namespace Tohmua\RepeatingSegment;
 
-use Tohmua\RepeatingSegment\PartGenerator\PartGenerator;
-use Tohmua\RepeatingSegment\Part\PartFactory;
-use Tohmua\RepeatingSegment\RegexGenerator\RegexGenerator;
-
 use Traversable;
+use Zend\Stdlib\ArrayUtils;
 use Zend\Mvc\Router\Exception;
-use Zend\Mvc\Router\Http\RouteMatch;
 use Zend\Mvc\Router\Http\Segment;
 use Zend\Mvc\Router\RouteInterface;
-use Zend\Stdlib\ArrayUtils;
+use Zend\Mvc\Router\Http\RouteMatch;
 use Zend\Stdlib\RequestInterface as Request;
+use Tohmua\RepeatingSegment\Part\PartFactory;
+use Tohmua\RepeatingSegment\PartGenerator\PartGenerator;
+use Tohmua\RepeatingSegment\RegexGenerator\RegexGenerator;
 
 class RepeatingSegment extends Segment implements RouteInterface
 {
@@ -31,6 +30,12 @@ class RepeatingSegment extends Segment implements RouteInterface
         $this->regex       = $this->regexMatch();
     }
 
+    /**
+     * Parse the rout and build an array of route parts from it
+     *
+     * @param  string $route
+     * @return array         Tohmua\RepeatingSegment\Part\Part
+     */
     protected function parseRouteDefinition($route)
     {
         $parts = [];
@@ -42,6 +47,11 @@ class RepeatingSegment extends Segment implements RouteInterface
         return $parts;
     }
 
+    /**
+     * Build a regex to match the URI
+     *
+     * @return string
+     */
     protected function regexMatch()
     {
         $regex = '#^';
@@ -53,6 +63,14 @@ class RepeatingSegment extends Segment implements RouteInterface
         return $regex .= '$#';
     }
 
+    /**
+     * Try to match a request object
+     *
+     * @param  Request         $request
+     * @param  string|null     $pathOffset
+     * @param  array           $options
+     * @return RouteMatch|null
+     */
     public function match(Request $request, $pathOffset = null, array $options = array())
     {
         if (!method_exists($request, 'getUri')) {
@@ -72,6 +90,13 @@ class RepeatingSegment extends Segment implements RouteInterface
         return new RouteMatch(array_merge($this->defaults, $paramaters));
     }
 
+    /**
+     * Return the regex that will match all the individual matching parts of the URI
+     * from the request object
+     *
+     * @param  Request $request
+     * @return string
+     */
     private function matchingRegex(Request $request)
     {
         $regex = '';
@@ -81,6 +106,12 @@ class RepeatingSegment extends Segment implements RouteInterface
         return $regex;
     }
 
+    /**
+     * Loop through the constrains and try and find all the matches for it
+     *
+     * @param  array  $matches
+     * @return array
+     */
     private function constraintPartsFromMatches(array $matches)
     {
         $paramaters = [];
@@ -92,6 +123,13 @@ class RepeatingSegment extends Segment implements RouteInterface
         return $paramaters;
     }
 
+    /**
+     * For a given constraint find its matches
+     *
+     * @param  string $constraint
+     * @param  array  $matches
+     * @return array
+     */
     private function constraintFromMatches($constraint, array $matches)
     {
         $values = [];
