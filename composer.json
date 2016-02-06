@@ -1,4 +1,6 @@
 {
+    "name": "Tohmua/RepeatingSegment",
+    "description": "FZ2 Repeating Segment Router",
     "require": {
         "zendframework/zend-mvc": "^2.6",
         "zendframework/zend-http": "^2.5"
