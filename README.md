@@ -23,19 +23,29 @@ return [
 ];
 ```
 
-Example 1:
+####Example 1:
 ```
 '/foo[:section]/bar'
 ```
-will for example match
 
-/foo/test1/test2/test3/test4/bar
+will for example match:
+http://www.mysite.co.uk/foo/test1/test2/test3/test4/bar
 
-Example 2:
+the match will return
+```php
+$section = ['/test1', '/test2', '/test3', '/test4'];
+```
+
+####Example 2:
 ```
 '/foo[:section]/bar[:other_section]/baz'
 ```
 
 will for example match
+http://www.mysite.co.uk/foo/test1/test2/bar/test3/test4/baz
 
-/foo/test1/test2/bar/test3/test4/baz
+the match will return
+```php
+$section = ['/test1', '/test2'];
+$other_section = ['/test3', '/test4'];
+```
