@@ -100,9 +100,11 @@ class RepeatingSegment extends Segment implements RouteInterface
     private function matchingRegex(Request $request)
     {
         $regex = '';
+
         foreach ((new RegexGenerator($request, $this->parts))->regexMatch() as $regexPart) {
             $regex .= $regexPart;
         }
+
         return $regex;
     }
 
