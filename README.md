@@ -1,5 +1,5 @@
 # RepeatingSegment
-FZ2 Repeating Segment Router
+ZF2 Repeating Segment Router
 
 Like the ZF2 Zend\Mvc\Router\Http\Segment route. However the segments can repeat. The results are returned as an array rather than a single value.
 
